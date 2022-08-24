@@ -1,12 +1,10 @@
-import Postit from "./components/postit"
+import PostitContainer from "./components/postit-container"
 
 function App() {
 
   return (
     <>
-    <div className="postit-container">
-    <Postit />
-    </div>
+      <PostitContainer />
     </>
   )
 }
