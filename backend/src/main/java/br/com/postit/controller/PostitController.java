@@ -30,14 +30,14 @@ public class PostitController {
 	
 	@GetMapping(path = "/todos")
 	public List<PostitModel> buscarTodosPostits() {
-		return null;
+		return service.buscaTodos();
 	}
-	
 	
 	@PostMapping(path = "/salvar")
 	public PostitModel salvar(@RequestBody @Valid PostitModel postit) {
 		return service.criaPostit(postit);
 	}
+	
 	@PutMapping(path = "/atualizar/{id}")
 	public PostitModel atualizarDescricao(@PathVariable Long id, @RequestBody @Valid PostitModel postit) {
 		return null;
