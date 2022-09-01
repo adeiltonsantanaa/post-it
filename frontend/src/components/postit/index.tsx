@@ -10,7 +10,7 @@ function Postit() {
 
     useEffect(() => {
         axios.get('http://localhost:8080/postit/todos')
-            .then(res => { setPostit(res.data) })
+            .then(res => { setPostit(res.data.content) })
             .catch(err => { console.log(err) })
     }, []);
 
