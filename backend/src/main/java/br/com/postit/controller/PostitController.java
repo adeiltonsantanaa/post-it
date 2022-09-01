@@ -1,10 +1,10 @@
 package br.com.postit.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,8 +29,8 @@ public class PostitController {
 	}
 	
 	@GetMapping(path = "/todos")
-	public List<PostitModel> buscarTodosPostits() {
-		return service.buscaTodos();
+	public Page<PostitModel> buscarTodosPostits(Pageable pageable) {
+		return service.buscaTodos(pageable);
 	}
 	
 	@PostMapping(path = "/salvar")
@@ -40,7 +40,7 @@ public class PostitController {
 	
 	@PutMapping(path = "/atualizar/{id}")
 	public PostitModel atualizarDescricao(@PathVariable Long id, @RequestBody @Valid PostitModel postit) {
-		return null;
+		return service.atualizarPostit(postit, id);
 	}
 	
 	
