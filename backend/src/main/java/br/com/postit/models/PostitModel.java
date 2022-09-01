@@ -54,6 +54,13 @@ public class PostitModel {
 	public long getId() {
 		return id;
 	}
+
+
+	@Override
+	public String toString() {
+		return " Data Adição= " + date + ", "
+						+ "Descrição= " + descricao;
+	}
 	
 	
 	
