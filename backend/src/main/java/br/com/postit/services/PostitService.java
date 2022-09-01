@@ -1,7 +1,6 @@
 package br.com.postit.services;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,25 +16,35 @@ public class PostitService {
 
 	@Autowired
 	private PostitRepository repository;
-	
-	
-	public Page<PostitModel> buscaTodos(Pageable pageable){
+	@Autowired
+	private PostitEmailService mail;
+
+	public Page<PostitModel> buscaTodos(Pageable pageable) {
 		return repository.findPostit(pageable);
 	}
+
 	public PostitModel criaPostit(PostitModel postit) {
-		validaEntradas(postit);
-		postit.setDate(LocalDateTime.now());
+		new Thread() {
+
+			@Override
+			public void run() {
+
+				validaEntradas(postit);
+				postit.setDate(LocalDateTime.now());
+				mail.sendMail("Postit Adicionado \n" + postit);
+			}
+		}.start();
 		return repository.save(postit);
 	}
+
 	public PostitModel atualizarPostit(PostitModel postit, long id) {
 		PostitModel p1 = repository.getById(id);
 		p1.setDescricao(postit.getDescricao());
 		return null;
 	}
-	
-	
-	public void validaEntradas(PostitModel postit) throws ServiceException {		
-		if(postit.getDescricao() == null || postit.getDescricao().isEmpty()) {
+
+	public void validaEntradas(PostitModel postit) throws ServiceException {
+		if (postit.getDescricao() == null || postit.getDescricao().isEmpty()) {
 			throw new ServiceException("A descrição não pode ser nula!");
 		}
 	}
